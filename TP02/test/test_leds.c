@@ -23,10 +23,6 @@ SPDX-License-Identifier: MIT
  ** @brief Definición de la función principal del programa
  **/
 /**
- * @test Con la inicialización todos los LEDs quedan apagados.
- * @test Prender un LED individual.
- * @test Apagar un LED individual.
- * @test Prender y apagar múltiples LED’s.
  * @test Prender todos los LEDs de una vez.
  * @test Apagar todos los LEDs de una vez.
  * @test Consultar el estado de un LED que está encendido
@@ -50,10 +46,14 @@ SPDX-License-Identifier: MIT
 /* === Public variable definitions ============================================================= */
 
 /* === Private variable definitions ============================================================ */
-
+static uint16_t ledsVirtuales;
 /* === Private function implementation ========================================================= */
 
 /* === Public function implementation ========================================================== */
+void setUp()
+{
+  initLeds(&ledsVirtuales);
+}
 
 //!  @test Con la inicialización todos los LEDs quedan apagados.
 void test_todos_los_leds_inician_apagado(void)
@@ -67,9 +67,6 @@ void test_todos_los_leds_inician_apagado(void)
 //! @test Prender un LED individual.
 void test_prender_un_LED_individual(void)
 {
-  uint16_t ledsVirtuales = 0xFFFF;
-
-  initLeds(&ledsVirtuales);
   turnOnSingleLeds(4);
   // TEST_ASSERT_BIT_HIGH(3, ledsVirtuales)
   TEST_ASSERT_EQUAL_HEX16(0x0008, ledsVirtuales);
@@ -78,11 +75,18 @@ void test_prender_un_LED_individual(void)
 //! @test Apagar un LED individual.
 void test_apagar_un_LED_individual(void)
 {
-  uint16_t ledsVirtuales = 0xFFFF;
-
-  initLeds(&ledsVirtuales);
   turnOnSingleLeds(4);
   turnOffSingleLeds(4);
   TEST_ASSERT_EQUAL_HEX16(0x0000, ledsVirtuales);
+}
+
+//! @test Prender y apagar múltiples LED’s.
+void test_prender_y_apagar_multiples_LEDs(void)
+{
+  turnOnSingleLeds(4);
+  turnOnSingleLeds(6);
+  turnOffSingleLeds(4);
+  turnOffSingleLeds(8);
+  TEST_ASSERT_EQUAL_HEX16(0x0020, ledsVirtuales);
 }
 /* === End of documentation ==================================================================== */

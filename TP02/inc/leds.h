@@ -62,7 +62,7 @@ extern "C"
 
   /**
    * @brief Función para encender un led especifico
-
+   *
    * @param led numero de led a encender. Rango de 1 a 16.
    * @return void
    */
@@ -70,11 +70,10 @@ extern "C"
 
   /**
    * @brief Función para apagar un led especifico
-
+   *
    * @param led numero de led a encender. Rango de 1 a 16.
    * @return void
    */
-
   void turnOffSingleLeds(uint8_t led);
 
   /* === End of documentation ====================================================================

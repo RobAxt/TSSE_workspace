@@ -28,35 +28,55 @@ SPDX-License-Identifier: MIT
 #include "leds.h"
 
 /* === Macros definitions ====================================================================== */
-
-/* === Private data type declarations ========================================================== */
-static uint16_t* portAddress;
+//! @brief Mascara para apagar todos los leds
+#define ALL_LEDS_OFF 0x0000
+//! @brief Desplazamiento de los LEDS para obtener la mascara
+#define LEDS_TO_BIT_OFFSET 1
+//! @brief Constate con el primer bit en uno para generar la mascara
+#define FIRST_BIT
+1
+    /* === Private data type declarations ==========================================================
+     */
+    //! @brief  Variable privada para lmacenar la direccion de puerto de salida
+    static uint16_t* portAddress;
 
 /* === Private variable declarations =========================================================== */
 
 /* === Private function declarations =========================================================== */
+/**
+ * @brief Función privada para converitr el numero de un led en una mascara de bits
+ *
+ * @param led numero de led para el que se desea generara la mascara
+ * @return retorna el valor de la mascara a usar
+ */
+static uint16_t ledToMask(uint8_t led);
 
 /* === Public variable definitions ============================================================= */
 
 /* === Private variable definitions ============================================================ */
 
 /* === Private function implementation ========================================================= */
+uint16_t ledToMask(uint8_t led)
+{
+  return (FIRST_BIT << (led - LEDS_TO_BIT_OFFSET));
+}
 
 /* === Public function implementation ========================================================== */
 
 void initLeds(uint16_t* memAddress)
 {
   portAddress = memAddress;
-  *portAddress = 0;
+  *portAddress = ALL_LEDS_OFF;
 }
 
 void turnOnSingleLeds(uint8_t led)
 {
-  *portAddress |= 0x1 << (led - 1);
+  *portAddress |= ledToMask(led);
 }
 
 void turnOffSingleLeds(uint8_t led)
 {
-  *portAddress &= ~(0x1 << (led - 1));
+  *portAddress &= ~ledToMask(led);
 }
+
 /* === End of documentation ==================================================================== */
