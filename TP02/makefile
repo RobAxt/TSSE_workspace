@@ -4,7 +4,7 @@ SRC_DIR = ./src
 INC_DIR = ./inc
 OUT_DIR = ./bin
 OBJ_DIR = $(OUT_DIR)/obj
-DOC_DIR = $(OUT_DIR)/doc
+DOC_DIR = ./doc
 
 CC = gcc
 CFLAGS = -Wall -std=c99 -pedantic -O3

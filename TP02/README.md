@@ -6,23 +6,25 @@ sudo apt install clang-format
 sudo apt install pre-commit
 sudo apt install valgrind
 sudo apt install doxygen
+sudo apt install ruby
+sudo gem install ceedling
 ```
 
 ## Inicializacion de entorno
 
 ```bash
-:$/TSSE_workspace$ git init
-:$/TSSE_workspace$ pre-commit install
-:$/TSSE_workspace/TP02$ pre-commit install
+:~/TSSE_workspace$ git init
+:~/TSSE_workspace$ ceedling new TP02
+:~/TSSE_workspace/TP02$ pre-commit install
 ```
 
 ## Estructura del Proyecto
 ```
 TP02/
-├── src/                     # Archivos fuente (.c)
-├── inc/                     # Archivos de encabezado (.h)
-├── bin/                     # Ejecutables generados
-├── test/                    #
+├── src/                     # Archivos fuentes (.c)
+├── inc/                     # Archivos de encabezados (.h)
+├── doc/                     # Archivos de documentación de doxygen
+├── test/                    # Archivos de pruebas unitarias (.c)
 |     └── support/           #
 ├── makefile                 # Archivo de construcción
 ├── doxyfile                 # Archivo de formato de documentacion

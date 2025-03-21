@@ -19,29 +19,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 SPDX-License-Identifier: MIT
 *************************************************************************************************/
 
-/** @file test_leds.c
- ** @brief Definición de la función principal del programa
+/** @file leds.c
+ ** @brief Definición de la biblioteca para el control de LEDs
  **/
-/**
- * @test Con la inicialización todos los LEDs quedan apagados.
- * @test Prender un LED individual.
- * @test Apagar un LED individual.
- * @test Prender y apagar múltiples LED’s.
- * @test Prender todos los LEDs de una vez.
- * @test Apagar todos los LEDs de una vez.
- * @test Consultar el estado de un LED que está encendido
- * @test Consultar el estado de un LED que est apagado
- * @test Revisar limites de los parametros.
- * @test Revisar parámetros fuera de los limites.
- */
+
 /* === Headers files inclusions =============================================================== */
 
 #include "leds.h"
-#include "unity.h"
 
 /* === Macros definitions ====================================================================== */
 
 /* === Private data type declarations ========================================================== */
+static uint16_t* portAddress;
 
 /* === Private variable declarations =========================================================== */
 
@@ -55,34 +44,19 @@ SPDX-License-Identifier: MIT
 
 /* === Public function implementation ========================================================== */
 
-//!  @test Con la inicialización todos los LEDs quedan apagados.
-void test_todos_los_leds_inician_apagado(void)
+void initLeds(uint16_t* memAddress)
 {
-  uint16_t ledsVirtuales = 0xFFFF;
-
-  initLeds(&ledsVirtuales);
-  TEST_ASSERT_EQUAL_HEX16(0x0000, ledsVirtuales);
+  portAddress = memAddress;
+  *portAddress = 0;
 }
 
-//! @test Prender un LED individual.
-void test_prender_un_LED_individual(void)
+void turnOnSingleLeds(uint8_t led)
 {
-  uint16_t ledsVirtuales = 0xFFFF;
-
-  initLeds(&ledsVirtuales);
-  turnOnSingleLeds(4);
-  // TEST_ASSERT_BIT_HIGH(3, ledsVirtuales)
-  TEST_ASSERT_EQUAL_HEX16(0x0008, ledsVirtuales);
+  *portAddress |= 0x1 << (led - 1);
 }
 
-//! @test Apagar un LED individual.
-void test_apagar_un_LED_individual(void)
+void turnOffSingleLeds(uint8_t led)
 {
-  uint16_t ledsVirtuales = 0xFFFF;
-
-  initLeds(&ledsVirtuales);
-  turnOnSingleLeds(4);
-  turnOffSingleLeds(4);
-  TEST_ASSERT_EQUAL_HEX16(0x0000, ledsVirtuales);
+  *portAddress &= ~(0x1 << (led - 1));
 }
 /* === End of documentation ==================================================================== */
