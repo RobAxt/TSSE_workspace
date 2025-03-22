@@ -71,7 +71,7 @@ uint16_t ledToMask(uint8_t led)
 void initLeds(uint16_t* memAddress)
 {
   portAddress = memAddress;
-  *portAddress = ALL_LEDS_OFF;
+  turnOffAllLeds();
 }
 
 void turnOnSingleLeds(uint8_t led)
@@ -87,5 +87,10 @@ void turnOffSingleLeds(uint8_t led)
 void turnOnAllLeds(void)
 {
   *portAddress = ALL_LEDS_ON;
+}
+
+void turnOffAllLeds(void)
+{
+  *portAddress = ALL_LEDS_OFF;
 }
 /* === End of documentation ==================================================================== */

@@ -84,6 +84,14 @@ extern "C"
    */
   void turnOnAllLeds(void);
 
+  /**
+   * @brief Función para agapar todos los led
+   *
+   * @param  void
+   * @return void
+   */
+  void turnOffAllLeds(void);
+
   /* === End of documentation ====================================================================
    */
 
