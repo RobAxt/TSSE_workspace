@@ -37,6 +37,10 @@ SPDX-License-Identifier: MIT
 #define LEDS_TO_BIT_OFFSET 1
 //! @brief Constate con el primer bit en uno para generar la mascara
 #define FIRST_BIT 1
+//! @brief Constate que indica el primer led valido
+#define FIRST_LED 1
+//! @brief Constate que indica el ultimo led valido
+#define LAST_LED 16
 
 /* === Private data type declarations ========================================================== */
 
@@ -51,9 +55,17 @@ static uint16_t* portAddress;
  * @brief Función privada para converitr el numero de un led en una mascara de bits
  *
  * @param led numero de led para el que se desea generara la mascara
- * @return retorna el valor de la mascara a usar
+ * @return uint16_t retorna el valor de la mascara a usar
  */
 static uint16_t ledToMask(uint8_t led);
+
+/**
+ * @brief Función privada para verificar que led este dentro de rango
+ *
+ * @param led numero de led con el cual se desea operar
+ * @return bool indicando true si se encuentra dentro de los limites de leds validos
+ */
+static bool insideLimits(led);
 
 /* === Public variable definitions ============================================================= */
 
@@ -63,7 +75,12 @@ static uint16_t ledToMask(uint8_t led);
 
 uint16_t ledToMask(uint8_t led)
 {
-  return (FIRST_BIT << (led - LEDS_TO_BIT_OFFSET));
+  return (ALL_LEDS_ON) & (FIRST_BIT << (led - LEDS_TO_BIT_OFFSET));
+}
+
+bool insideLimits(led)
+{
+  return (led >= FIRST_LED) && (led <= LAST_LED);
 }
 
 /* === Public function implementation ========================================================== */
@@ -96,11 +113,12 @@ void turnOffAllLeds(void)
 
 bool isLedOn(uint8_t led)
 {
-  return (*portAddress & ledToMask(led)) != 0;
+  return insideLimits(led) && (*portAddress & ledToMask(led)) != 0;
 }
 
 bool isLedOff(uint8_t led)
 {
-  return !isLedOn(led);
+  return insideLimits(led) && !isLedOn(led);
 }
+
 /* === End of documentation ==================================================================== */

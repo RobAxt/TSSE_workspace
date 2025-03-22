@@ -24,7 +24,6 @@ SPDX-License-Identifier: MIT
  **/
 /**
  *
- * @test Revisar limites de los parametros.
  * @test Revisar parámetros fuera de los limites.
  */
 /* === Headers files inclusions =============================================================== */
@@ -125,6 +124,7 @@ void test_revisar_limite_inferior(void)
 {
   turnOnSingleLeds(1);
   TEST_ASSERT_EQUAL_HEX16(0x0001, ledsVirtuales);
+  TEST_ASSERT_EQUAL(true, isLedOn(1));
 }
 
 //! @test Revisar limite superior de los parametros de led.
@@ -132,7 +132,34 @@ void test_revisar_limite_superior(void)
 {
   turnOnSingleLeds(16);
   TEST_ASSERT_EQUAL_HEX16(0x8000, ledsVirtuales);
+  TEST_ASSERT_EQUAL(true, isLedOn(16));
 }
 
-//! @test Revisar limite superior de los parametros de led.
+//! @test Revisar parámetros fuera del limite inferior.
+void test_revisar_fuera_de_limite_inferior(void)
+{
+  turnOnAllLeds();
+  turnOffSingleLeds(-1);
+  TEST_ASSERT_EQUAL_HEX16(0xFFFF, ledsVirtuales);
+  TEST_ASSERT_EQUAL(false, isLedOff(-1));
+
+  turnOffAllLeds();
+  turnOnSingleLeds(0);
+  TEST_ASSERT_EQUAL_HEX16(0x0000, ledsVirtuales);
+  TEST_ASSERT_EQUAL(false, isLedOn(0));
+}
+
+//! @test Revisar parámetros fuera del limite superior.
+void test_revisar_fuera_de_limite_superior(void)
+{
+  turnOnAllLeds();
+  turnOffSingleLeds(18);
+  TEST_ASSERT_EQUAL_HEX16(0xFFFF, ledsVirtuales);
+  TEST_ASSERT_EQUAL(false, isLedOff(18));
+
+  turnOffAllLeds();
+  turnOnSingleLeds(32);
+  TEST_ASSERT_EQUAL_HEX(0x0000, ledsVirtuales);
+  TEST_ASSERT_EQUAL(false, isLedOn(32));
+}
 /* === End of documentation ==================================================================== */

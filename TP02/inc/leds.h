@@ -39,17 +39,13 @@ extern "C"
 {
 #endif
 
-  /* === Public macros definitions ===============================================================
-   */
+  /* === Public macros definitions ============================================================= */
 
-  /* === Public data type declarations ===========================================================
-   */
+  /* === Public data type declarations ========================================================= */
 
-  /* === Public variable declarations ============================================================
-   */
+  /* === Public variable declarations ========================================================== */
 
-  /* === Public function declarations ============================================================
-   */
+  /* === Public function declarations ========================================================== */
 
   /**
    * @brief Función para inicializar la biblioteca d eleds
@@ -96,6 +92,8 @@ extern "C"
   /**
    * @brief Función para verificar si un led en particular esta encendido
    *
+   * @note en caso de error en argumentos de entrada devuelve false
+   *
    * @param led numero de led a verificar. Rango de 1 a 16.
    * @return bool devuelve true cuando esta encendio y de lo contrario false.
    */
@@ -104,13 +102,14 @@ extern "C"
   /**
    * @brief Función para verificar si un led en particular esta apagdo
    *
+   * @note en caso de error en argumentos de entrada devuelve false
+   *
    * @param led numero de led a verificar. Rango de 1 a 16.
    * @return bool devuelve true cuando esta apagado y de lo contrario false.
    */
   bool isLedOff(uint8_t led);
 
-  /* === End of documentation ====================================================================
-   */
+  /* === End of documentation ================================================================== */
 
 #ifdef __cplusplus
 }
