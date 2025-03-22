@@ -76,6 +76,14 @@ extern "C"
    */
   void turnOffSingleLeds(uint8_t led);
 
+  /**
+   * @brief Función para prender todos los led
+   *
+   * @param  void
+   * @return void
+   */
+  void turnOnAllLeds(void);
+
   /* === End of documentation ====================================================================
    */
 

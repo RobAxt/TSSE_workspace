@@ -28,21 +28,25 @@ SPDX-License-Identifier: MIT
 #include "leds.h"
 
 /* === Macros definitions ====================================================================== */
+
 //! @brief Mascara para apagar todos los leds
 #define ALL_LEDS_OFF 0x0000
+//! @brief Mascara para prender todos los leds
+#define ALL_LEDS_ON 0xFFFF
 //! @brief Desplazamiento de los LEDS para obtener la mascara
 #define LEDS_TO_BIT_OFFSET 1
 //! @brief Constate con el primer bit en uno para generar la mascara
-#define FIRST_BIT
-1
-    /* === Private data type declarations ==========================================================
-     */
-    //! @brief  Variable privada para lmacenar la direccion de puerto de salida
-    static uint16_t* portAddress;
+#define FIRST_BIT 1
+
+/* === Private data type declarations ========================================================== */
+
+//! @brief  Variable privada para lmacenar la direccion de puerto de salida
+static uint16_t* portAddress;
 
 /* === Private variable declarations =========================================================== */
 
 /* === Private function declarations =========================================================== */
+
 /**
  * @brief Función privada para converitr el numero de un led en una mascara de bits
  *
@@ -56,6 +60,7 @@ static uint16_t ledToMask(uint8_t led);
 /* === Private variable definitions ============================================================ */
 
 /* === Private function implementation ========================================================= */
+
 uint16_t ledToMask(uint8_t led)
 {
   return (FIRST_BIT << (led - LEDS_TO_BIT_OFFSET));
@@ -79,4 +84,8 @@ void turnOffSingleLeds(uint8_t led)
   *portAddress &= ~ledToMask(led);
 }
 
+void turnOnAllLeds(void)
+{
+  *portAddress = ALL_LEDS_ON;
+}
 /* === End of documentation ==================================================================== */

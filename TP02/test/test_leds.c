@@ -23,7 +23,7 @@ SPDX-License-Identifier: MIT
  ** @brief Definición de la función principal del programa
  **/
 /**
- * @test Prender todos los LEDs de una vez.
+ *
  * @test Apagar todos los LEDs de una vez.
  * @test Consultar el estado de un LED que está encendido
  * @test Consultar el estado de un LED que est apagado
@@ -46,10 +46,13 @@ SPDX-License-Identifier: MIT
 /* === Public variable definitions ============================================================= */
 
 /* === Private variable definitions ============================================================ */
+
 static uint16_t ledsVirtuales;
+
 /* === Private function implementation ========================================================= */
 
 /* === Public function implementation ========================================================== */
+
 void setUp()
 {
   initLeds(&ledsVirtuales);
@@ -89,4 +92,12 @@ void test_prender_y_apagar_multiples_LEDs(void)
   turnOffSingleLeds(8);
   TEST_ASSERT_EQUAL_HEX16(0x0020, ledsVirtuales);
 }
+
+//! @test Prender todos los LEDs de una vez.
+void test_prender_todos_los_LEDs(void)
+{
+  turnOnAllLeds();
+  TEST_ASSERT_EQUAL_HEX16(0xFFFF, ledsVirtuales);
+}
+
 /* === End of documentation ==================================================================== */
