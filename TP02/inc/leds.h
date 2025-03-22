@@ -29,6 +29,7 @@ SPDX-License-Identifier: MIT
 
 /* === Headers files inclusions ================================================================ */
 
+#include <stdbool.h>
 #include <stdint.h>
 
 /* === Cabecera C++ ============================================================================ */
@@ -91,6 +92,14 @@ extern "C"
    * @return void
    */
   void turnOffAllLeds(void);
+
+  /**
+   * @brief Función para verificar si un led en particular esta encendido
+   *
+   * @param led numero de led a encender. Rango de 1 a 16.
+   * @return bool devuelve true cuando esta encendio y de lo contrario false.
+   */
+  bool isLedOn(uint8_t led);
 
   /* === End of documentation ====================================================================
    */

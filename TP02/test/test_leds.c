@@ -24,8 +24,6 @@ SPDX-License-Identifier: MIT
  **/
 /**
  *
- * @test Apagar todos los LEDs de una vez.
- * @test Consultar el estado de un LED que está encendido
  * @test Consultar el estado de un LED que est apagado
  * @test Revisar limites de los parametros.
  * @test Revisar parámetros fuera de los limites.
@@ -108,4 +106,10 @@ void test_apagar_todos_los_LEDs(void)
   TEST_ASSERT_EQUAL_HEX16(0x0000, ledsVirtuales);
 }
 
+//! @test Consultar el estado de un LED que está encendido
+void test_Consultar_el_estado_de_un_LED_encendido(void)
+{
+  turnOnSingleLeds(4);
+  TEST_ASSERT_EQUAL(true, isLedOn(4));
+}
 /* === End of documentation ==================================================================== */
