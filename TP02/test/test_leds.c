@@ -112,4 +112,13 @@ void test_Consultar_el_estado_de_un_LED_encendido(void)
   turnOnSingleLeds(4);
   TEST_ASSERT_EQUAL(true, isLedOn(4));
 }
+
+//! @test Consultar el estado de un LED que está apagado
+void test_Consultar_el_estado_de_un_LED_apagado(void)
+{
+  turnOnSingleLeds(4);
+  turnOffSingleLeds(4);
+  TEST_ASSERT_EQUAL(true, isLedOff(4));
+}
+
 /* === End of documentation ==================================================================== */

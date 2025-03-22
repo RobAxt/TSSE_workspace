@@ -96,10 +96,18 @@ extern "C"
   /**
    * @brief Función para verificar si un led en particular esta encendido
    *
-   * @param led numero de led a encender. Rango de 1 a 16.
+   * @param led numero de led a verificar. Rango de 1 a 16.
    * @return bool devuelve true cuando esta encendio y de lo contrario false.
    */
   bool isLedOn(uint8_t led);
+
+  /**
+   * @brief Función para verificar si un led en particular esta apagdo
+   *
+   * @param led numero de led a verificar. Rango de 1 a 16.
+   * @return bool devuelve true cuando esta apagado y de lo contrario false.
+   */
+  bool isLedOff(uint8_t led);
 
   /* === End of documentation ====================================================================
    */
