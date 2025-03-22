@@ -42,3 +42,11 @@ Para compilar el proyecto, asegúrate de tener instalado `gcc` y `make`. Luego, 
 ```bash
 make
 ```
+
+## Generación de documentación
+
+Si deseas observar la documentacion en formato doxygen, ejecuta:
+
+```bash
+make doc
+```
