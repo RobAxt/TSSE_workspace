@@ -24,7 +24,6 @@ SPDX-License-Identifier: MIT
  **/
 /**
  *
- * @test Consultar el estado de un LED que est apagado
  * @test Revisar limites de los parametros.
  * @test Revisar parámetros fuera de los limites.
  */
@@ -121,4 +120,19 @@ void test_Consultar_el_estado_de_un_LED_apagado(void)
   TEST_ASSERT_EQUAL(true, isLedOff(4));
 }
 
+//! @test Revisar limite inferior de los parametros de led.
+void test_revisar_limite_inferior(void)
+{
+  turnOnSingleLeds(1);
+  TEST_ASSERT_EQUAL_HEX16(0x0001, ledsVirtuales);
+}
+
+//! @test Revisar limite superior de los parametros de led.
+void test_revisar_limite_superior(void)
+{
+  turnOnSingleLeds(16);
+  TEST_ASSERT_EQUAL_HEX16(0x8000, ledsVirtuales);
+}
+
+//! @test Revisar limite superior de los parametros de led.
 /* === End of documentation ==================================================================== */
