@@ -38,8 +38,7 @@ TP03/
 └── README.md                # Este archivo
 ```
 
-
-# Comportamiento del proyecto a probar
+# Comportamiento del proyecto
 ## Objetivo
 Escribir un servidor TCP que permite almacenar información ASCII en forma de clave-valor.
 
@@ -60,9 +59,9 @@ Los comandos que acepta el servidor son:
   * Se responde al cliente OK\n.
 * GET &lt;clave&gt;\n:
   * Si existe el archivo correspondiente, se responde al cliente con: OK\n&lt;valor&gt;\n (es decir, una línea de texto que dice OK y otra que contiene el contenido del archivo).
- * Si no existe, se responde con NOTFOUND\n
+  * Si no existe, se responde con NOTFOUND\n
 * DEL &lt;clave&gt;\n:
-  * Si existe la el archivo correspondiente, se elimina.
+  * Si existe el archivo correspondiente, se elimina.
   * Tanto si existe como no, se responde OK\n.
 Ante cualquier caso excepcional, informar la causa y finalizar el proceso con código de error.
 
@@ -167,3 +166,31 @@ En funcionamiento normal el servidor responde de la siguiente manera:
 [INFO] Message to Send: OK
 [INFO] Waiting a connection...
 ```
+
+# Comportamiento de la funcion a probar
+## Función
+```C
+int handleCommand(char* cmnd, char* resp);
+```
+## Argumentos de entrada
+```C
+//! Cadena de caracteres con el comando solicitado y sus argumentos de tener
+char* cmnd
+//! Espacio reservado de tamaño BUFSIZE para incluir una respuesta de ser necesario
+char* resp
+```
+## Valores de retorno
+```C
+//! La funcion retorno satisfactoriamente y contiene una respuesta para el usuario
+#define OK_RESPONSE  2
+//! La funcion retorno satisfactoriamente y no contiene una respuesta
+#define OK           1
+//! El archivo solicitado por el usuario no fue encontrado
+#define NOT_FOUND   -1
+//! Un error inesperado ha ocurrido durante la ejecucion del comando solicitado
+#define ERROR       -2
+```
+## Pruebas a realizar
+### Prueba 1
+Se probará
+### Prueba 2

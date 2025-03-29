@@ -129,7 +129,7 @@ static int deleteFile(char* key, char* value, char* response)
   {
     printf("[INFO] Key received: %s\n", key);
 
-    if(remove(key) == 0)
+    if(unlink(key) == 0)
     {
       printf("[INFO] Deleted successfully\n");
       return OK;
