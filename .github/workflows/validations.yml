@@ -18,7 +18,7 @@ jobs:
     defaults:
       run:
         working-directory:
-          - 'TP02'
+          - TP02
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
