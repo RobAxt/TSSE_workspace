@@ -32,6 +32,7 @@ SPDX-License-Identifier: MIT
  */
 /* === Headers files inclusions =============================================================== */
 
+#include "fff.h"
 #include "handleServerUtil.h"
 #include "mock_fcntl.h"   // mock de la funcion open
 #include "mock_unistd.h"  // mock de las funciones read, write, unlink, close
@@ -86,11 +87,15 @@ void setUp()
   command = NULL;
   memset(response, '\0', BUFSIZE);
 
-  open_fake.custom_fake = auxiliar_open;
-  read_fake.custom_fake = auxiliar_read;
-  write_fake.custom_fake = auxiliar_write;
-  close_fake.custom_fake = auxiliar_close;
-  unlink_fake.custom_fake = auxiliar_unlink;
+  FFF_RESET_HISTORY();
+  RESET_FAKE(read);
+  RESET_FAKE(write);
+  RESET_FAKE(unlink);
+
+  // read_fake.custom_fake = auxiliar_read;
+  // write_fake.custom_fake = auxiliar_write;
+  // close_fake.custom_fake = auxiliar_close;
+  // unlink_fake.custom_fake = auxiliar_unlink;
 }
 
 void tearDown(void)
@@ -99,6 +104,8 @@ void tearDown(void)
 
 void test_de_prueba(void)
 {
+  open_fake.return_val = 5;
+  close_fake.return_val = 0;
   command = "SET hola mundo";
   TEST_ASSERT_EQUAL(OK, handleCommand(command, response));
 }
