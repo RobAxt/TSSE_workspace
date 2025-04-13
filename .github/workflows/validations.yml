@@ -15,6 +15,9 @@ permissions:
 jobs:
   verifications:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: TP02
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -36,11 +39,9 @@ jobs:
         run: pip install gcovr
 
       - name: Run Format Validations
-        working-directory: TP02   # Se establece el directorio de trabajo en TP02
         uses: pre-commit/action@v3.0.0
 
       - name: Run Unit Tests
-        working-directory: TP02   # Se establece el directorio de trabajo en TP02
         run: ceedling clobber gcov:all
 
       - name: Test Results Report
