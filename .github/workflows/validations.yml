@@ -17,7 +17,8 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: TP02
+        working-directory:
+          - 'TP02/'
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
