@@ -47,13 +47,13 @@ jobs:
         if: success() || failure()
         with:
           name: Ceedling Unit Tests
-          path: TP02/build/artifacts/gcov/junit_tests_report.xml   # Ruta ajustada a TP02
+          path: build/artifacts/gcov/junit_tests_report.xml
           reporter: jest-junit
 
       - name: Code Coverage Report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: TP02/build/artifacts/gcov/gcovr/GcovCoverageCobertura.xml   # Ruta ajustada a TP02
+          filename: build/artifacts/gcov/gcovr/GcovCoverageCobertura.xml
           badge: true
           format: markdown
           hide_branch_rate: false
