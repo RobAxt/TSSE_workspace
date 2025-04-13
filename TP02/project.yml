@@ -56,7 +56,7 @@
   :enabled:
     #- beep                           # beeps when finished, so you don't waste time waiting for ceedling
     - module_generator                # handy for quickly creating source, header, and test templates
-    #- gcov                           # test coverage using gcov. Requires gcc, gcov, and a coverage analyzer like gcovr
+    - gcov                           # test coverage using gcov. Requires gcc, gcov, and a coverage analyzer like gcovr
     #- bullseye                       # test coverage using bullseye. Requires bullseye for your platform
     #- command_hooks                  # write custom actions to be called at different points during the build process
     #- compile_commands_json_db       # generate a compile_commands.json file
@@ -68,7 +68,7 @@
     #- report_build_warnings_log
     #- report_tests_gtestlike_stdout
     #- report_tests_ide_stdout
-    #- report_tests_log_factory
+    - report_tests_log_factory
     - report_tests_pretty_stdout
     #- report_tests_raw_output_log
     #- report_tests_teamcity_stdout
@@ -183,7 +183,7 @@
   :when_ptr:  :compare_data        # hint to cmock how to handle pointers in general, the options being :compare_ptr, :compare_data, or :smart
 
   # Mock generation configuration
-  :weak:  ''                       # Symbol to use to declare weak functions
+  :weak:  ""                       # Symbol to use to declare weak functions
   :enforce_strict_ordering: true   # Do we want cmock to enforce ordering of all function calls?
   :fail_on_unexpected_calls: true  # Do we want cmock to fail when it encounters a function call that wasn't expected?
   :callback_include_count: true    # Do we want cmock to include the number of calls to this callback, when using callbacks?
@@ -241,9 +241,9 @@
   :reports: # Specify one or more reports to generate.
     # Make an HTML summary report.
     - HtmlBasic
-    # - HtmlDetailed
+    - HtmlDetailed
     # - Text
-    # - Cobertura
+    - Cobertura
     # - SonarQube
     # - JSON
     # - HtmlInline
@@ -399,4 +399,3 @@
 #     :arguments: []
 #     :name:
 #     :optional: FALSE
-...
