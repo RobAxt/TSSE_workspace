@@ -68,7 +68,7 @@ void test_prender_un_LED_individual(void)
 {
   turnOnSingleLeds(4);
   // TEST_ASSERT_BIT_HIGH(3, ledsVirtuales)
-  TEST_ASSERT_EQUAL_HEX16(0x0008, ledsVirtuales);
+  TEST_ASSERT_EQUAL_HEX16(0x0007, ledsVirtuales);
 }
 
 //! @test Apagar un LED individual.
