@@ -36,6 +36,7 @@ jobs:
         run: pip install gcovr
 
       - name: Run Format Validations
+        working-directory: TP02   # Se establece el directorio de trabajo en TP02
         uses: pre-commit/action@v3.0.0
 
       - name: Run Unit Tests
