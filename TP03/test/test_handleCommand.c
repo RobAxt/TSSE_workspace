@@ -52,14 +52,7 @@ SPDX-License-Identifier: MIT
 
 /* === Private variable definitions ============================================================ */
 
-static char *command;
-static char response[BUFSIZE];
-
 /* === Private function implementation ========================================================= */
-int auxiliar_open(const char *pathname, int flags)
-{
-  return 5;
-}
 
 ssize_t auxiliar_read(int fd, void *buf, size_t count)
 {
@@ -71,31 +64,13 @@ ssize_t auxiliar_write(int fd, const void *buf, size_t count)
   return (ssize_t)count;
 }
 
-int auxiliar_close(int fd)
-{
-  return 0;
-}
-
-int auxiliar_unlink(const char *pathname)
-{
-  return 0;
-}
 /* === Public function implementation ========================================================== */
 
 void setUp()
 {
-  command = NULL;
-  memset(response, '\0', BUFSIZE);
-
   FFF_RESET_HISTORY();
   RESET_FAKE(read);
   RESET_FAKE(write);
-  RESET_FAKE(unlink);
-
-  // read_fake.custom_fake = auxiliar_read;
-  // write_fake.custom_fake = auxiliar_write;
-  // close_fake.custom_fake = auxiliar_close;
-  // unlink_fake.custom_fake = auxiliar_unlink;
 }
 
 void tearDown(void)
@@ -104,9 +79,15 @@ void tearDown(void)
 
 void test_de_prueba(void)
 {
+  char command[] = "SET hola mundo";
+  char response[BUFSIZE] = {'\0'};
+
   open_fake.return_val = 5;
   close_fake.return_val = 0;
-  command = "SET hola mundo";
+  read_fake.custom_fake = auxiliar_read;
+  write_fake.custom_fake = auxiliar_write;
+  unlink_fake.return_val = 0;
+
   TEST_ASSERT_EQUAL(OK, handleCommand(command, response));
 }
 
