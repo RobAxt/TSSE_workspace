@@ -45,7 +45,7 @@ SPDX-License-Identifier: MIT
 /* === Private data type declarations ========================================================== */
 
 /* === Private variable declarations =========================================================== */
-
+static char response[BUFSIZE];
 /* === Private function declarations =========================================================== */
 
 /* === Public variable definitions ============================================================= */
@@ -56,11 +56,15 @@ SPDX-License-Identifier: MIT
 
 ssize_t auxiliar_read(int fd, void *buf, size_t count)
 {
+  memcpy(buf, response, count);
+  printf("[TEST] Auxiliar Read: %s - Count: %d\r\n", (char *)buf, count);
   return (ssize_t)count;
 }
 
 ssize_t auxiliar_write(int fd, const void *buf, size_t count)
 {
+  memcpy(response, buf, count);
+  printf("[TEST] Auxiliar Write: %s - Count: %d\r\n", (char *)buf, count);
   return (ssize_t)count;
 }
 
@@ -77,18 +81,20 @@ void tearDown(void)
 {
 }
 
+// @test Test00 para testear el entorno de test
 void test_de_prueba(void)
 {
-  char command[] = "SET hola mundo";
-  char response[BUFSIZE] = {'\0'};
+  char cmd[] = "SET hola mundo\n";
+  char *rsp = "mundo";
 
-  open_fake.return_val = 5;
+  open_fake.return_val = 3;
   close_fake.return_val = 0;
   read_fake.custom_fake = auxiliar_read;
   write_fake.custom_fake = auxiliar_write;
   unlink_fake.return_val = 0;
 
-  TEST_ASSERT_EQUAL(OK, handleCommand(command, response));
+  TEST_ASSERT_EQUAL(OK, handleCommand(cmd, NULL));
+  TEST_ASSERT_EQUAL_STRING(rsp, response);
 }
 
 /* === End of documentation ==================================================================== */
