@@ -192,5 +192,40 @@ char* resp
 ```
 ## Pruebas a realizar
 ### Prueba 1
-Se probará
+Se prueban casos de comandos validos.
+|  caso  |    comando     |   return    |  buffer |
+|--------|----------------|-------------|---------|
+|  SET   | SET hola mundo |     OK      |  mundo  |
+|  GET   | GET hola       | OK_RESPONSE |  mundo  |
+|  DEL   | DEL hola       |     OK      |    -    |
+
 ### Prueba 2
+Se prueban casos de comandos malformados.
+|  caso  | comando  |  return  |  buffer |
+|--------|----------|----------|---------|
+|  SET   | SET hola |  ERROR   |    -    |
+|  GET   | GET      |  ERROR   |    -    |
+|  DEL   | DEL      |  ERROR   |    -    |
+
+### Prueba 3
+Se prueban casos de comandos invalidos.
+|  caso  | comando  |  return  |  buffer |
+|--------|----------|----------|---------|
+|  SET   | set hola |  ERROR   |    -    |
+|  GET   | get hola |  ERROR   |    -    |
+|  DEL   | del hola |  ERROR   |    -    |
+
+ ### Prueba 4
+ Se prueba error al abrir el archivo.
+ |  caso  |    comando     |   return   |  buffer |
+ |--------|----------------|------------|---------|
+ |  SET   | SET hola mundo |  NOT_FOUND |    -    |
+ |  GET   | GET hola       |  NOT_FOUND |    -    |
+ |  DEL   | DEL hola       |     OK     |    -    |
+
+ ### Prueba5
+ Se prueba error al escribir o leer en archivo
+ |  caso  |    comando     |   return   |  buffer |
+ |--------|----------------|------------|---------|
+ |  SET   | SET hola mundo |     OK     |    -    |
+ |  GET   | GET hola       |     OK     |    -    |
