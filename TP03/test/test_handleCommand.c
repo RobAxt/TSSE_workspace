@@ -46,11 +46,12 @@ SPDX-License-Identifier: MIT
  *  |  caso  |    comando     |   return   |  buffer |
  *  |  SET   | SET hola mundo |  NOT_FOUND |    -    |
  *  |  GET   | GET hola       |  NOT_FOUND |    -    |
+ *  |  DEL   | DEL hola       |     OK     |    -    |
  *
- * @test Test05: archivo no encontrado al borrar.
- *  |  caso  |  comando  |   return   |  buffer |
- *  |  DEL   | DEL hola  |     OK     |    -    |
- *
+ * @test Test05: error al escribir o leer en archivo
+ *  |  caso  |    comando     |   return   |  buffer |
+ *  |  SET   | SET hola mundo |     OK     |    -    |
+ *  |  GET   | GET hola       |     OK     |    -    |
  */
 /* === Headers files inclusions =============================================================== */
 
@@ -106,6 +107,11 @@ testCase_t malformCases[] = {{.description = "Malformed SET",
                               .command = "DEL \n",
                               .response = '\0',
                               .retorno = ERROR,
+                              .buffer = '\0'},
+                             {.description = "Empty Command",
+                              .command = "\n",
+                              .response = '\0',
+                              .retorno = ERROR,
                               .buffer = '\0'}};
 
 testCase_t invalidCases[] = {{.description = "Invalid SET",
@@ -123,6 +129,33 @@ testCase_t invalidCases[] = {{.description = "Invalid SET",
                               .response = '\0',
                               .retorno = ERROR,
                               .buffer = '\0'}};
+
+testCase_t errorOpeningFileCases[] = {{.description = "Fail Opening File for SET",
+                                       .command = "SET hola mundo\n",
+                                       .response = '\0',
+                                       .retorno = NOT_FOUND,
+                                       .buffer = '\0'},
+                                      {.description = "Fail Opening File for GET",
+                                       .command = "GET hola\n",
+                                       .response = '\0',
+                                       .retorno = NOT_FOUND,
+                                       .buffer = '\0'},
+                                      {.description = "Fail Opening File for DEL",
+                                       .command = "DEL hola\n",
+                                       .response = '\0',
+                                       .retorno = OK,
+                                       .buffer = '\0'}};
+
+testCase_t errorReadWriteFileCase[] = {{.description = "Fail Writing File for SET",
+                                        .command = "SET hola mundo\n",
+                                        .response = '\0',
+                                        .retorno = OK,
+                                        .buffer = '\0'},
+                                       {.description = "Fail Reading File for GET",
+                                        .command = "GET hola\n",
+                                        .response = '\0',
+                                        .retorno = OK,
+                                        .buffer = '\0'}};
 /* === Private variable declarations =========================================================== */
 
 /* === Private function declarations =========================================================== */
@@ -211,4 +244,41 @@ void test_comandos_invalidos(void)
                       handleCommand(invalidCases[i].command, invalidCases[i].response));
   }
 }
+
+// @test Test04: error al abrir el archivo.
+void test_error_abrir_archivo(void)
+{
+  open_fake.return_val = -1;
+  close_fake.return_val = 0;
+  read_fake.custom_fake = NULL;
+  write_fake.custom_fake = NULL;
+  unlink_fake.return_val = -1;
+
+  for(int i = 0; i < cantidad(errorOpeningFileCases, testCase_t); i++)
+  {
+    printf("[TEST] Test Case: %s\r\n", errorOpeningFileCases[i].description);
+    TEST_ASSERT_EQUAL(
+        errorOpeningFileCases[i].retorno,
+        handleCommand(errorOpeningFileCases[i].command, errorOpeningFileCases[i].response));
+  }
+}
+
+// @test Test05: error al escribir o leer en archivo
+void test_error_escribir_leer_archivo(void)
+{
+  open_fake.return_val = 3;
+  close_fake.return_val = 0;
+  read_fake.return_val = -1;
+  write_fake.return_val = -1;
+  unlink_fake.return_val = 0;
+
+  for(int i = 0; i < cantidad(errorReadWriteFileCase, testCase_t); i++)
+  {
+    printf("[TEST] Test Case: %s\r\n", errorReadWriteFileCase[i].description);
+    TEST_ASSERT_EQUAL(
+        errorReadWriteFileCase[i].retorno,
+        handleCommand(errorReadWriteFileCase[i].command, errorReadWriteFileCase[i].response));
+  }
+}
+
 /* === End of documentation ==================================================================== */
