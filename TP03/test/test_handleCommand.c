@@ -25,31 +25,31 @@ SPDX-License-Identifier: MIT
 /** @note Casos de prueba
  *
  * @test Test01: se prueban casos de comandos validos.
- *  |  caso  |    comando     |   return    |  write  |  read   |
- *  |  SET   | SET hola mundo |     OK      |  mundo  |   -     |
- *  |  GET   | GET hola       | OK_RESPONSE |    -    |  mundo  |
- *  |  DEL   | DEL hola       |     OK      |    -    |   -     |
+ *  |  caso  |    comando     |   return    |  buffer |
+ *  |  SET   | SET hola mundo |     OK      |  mundo  |
+ *  |  GET   | GET hola       | OK_RESPONSE |  mundo  |
+ *  |  DEL   | DEL hola       |     OK      |    -    |
  *
  * @test Test02: se prueban casos de comandos malformados.
- *  |  caso  | comando  |  return  |  write  |  read  |
- *  |  SET   | SET hola |  ERROR   |    -    |   -    |
- *  |  GET   | GET      |  ERROR   |    -    |   -    |
- *  |  DEL   | DEL      |  ERROR   |    -    |   -    |
+ *  |  caso  | comando  |  return  |  buffer |
+ *  |  SET   | SET hola |  ERROR   |    -    |
+ *  |  GET   | GET      |  ERROR   |    -    |
+ *  |  DEL   | DEL      |  ERROR   |    -    |
  *
  * @test Test03: se prueban casos de comandos invalidos.
- *  |  caso  | comando  |  return  |  write  |  read  |
- *  |  SET   | set hola |  ERROR   |    -    |   -    |
- *  |  GET   | get hola |  ERROR   |    -    |   -    |
- *  |  DEL   | del hola |  ERROR   |    -    |   -    |
+ *  |  caso  | comando  |  return  |  buffer |
+ *  |  SET   | set hola |  ERROR   |    -    |
+ *  |  GET   | get hola |  ERROR   |    -    |
+ *  |  DEL   | del hola |  ERROR   |    -    |
  *
  * @test Test04: error al abrir el archivo.
- *  |  caso  |    comando     |   return   |  write  |  read  |
- *  |  SET   | SET hola mundo |  NOT_FOUND |    -    |   -    |
- *  |  GET   | GET hola       |  NOT_FOUND |    -    |   -    |
+ *  |  caso  |    comando     |   return   |  buffer |
+ *  |  SET   | SET hola mundo |  NOT_FOUND |    -    |
+ *  |  GET   | GET hola       |  NOT_FOUND |    -    |
  *
  * @test Test05: archivo no encontrado al borrar.
- *  |  caso  |  comando  |   return   |  write  |  read  |
- *  |  DEL   | DEL hola  |     OK     |    -    |   -    |
+ *  |  caso  |  comando  |   return   |  buffer |
+ *  |  DEL   | DEL hola  |     OK     |    -    |
  *
  */
 /* === Headers files inclusions =============================================================== */
@@ -98,7 +98,7 @@ testCase_t malformCases[] = {{.description = "Malformed SET",
                               .retorno = ERROR,
                               .buffer = '\0'},
                              {.description = "Malformed GET",
-                              .command = "SET \n",
+                              .command = "GET \n",
                               .response = '\0',
                               .retorno = ERROR,
                               .buffer = '\0'},
@@ -108,6 +108,21 @@ testCase_t malformCases[] = {{.description = "Malformed SET",
                               .retorno = ERROR,
                               .buffer = '\0'}};
 
+testCase_t invalidCases[] = {{.description = "Invalid SET",
+                              .command = "set hola mundo\n",
+                              .response = '\0',
+                              .retorno = ERROR,
+                              .buffer = '\0'},
+                             {.description = "Invalid GET",
+                              .command = "get hola\n",
+                              .response = '\0',
+                              .retorno = ERROR,
+                              .buffer = '\0'},
+                             {.description = "Invalid DEL",
+                              .command = "del hola\n",
+                              .response = '\0',
+                              .retorno = ERROR,
+                              .buffer = '\0'}};
 /* === Private variable declarations =========================================================== */
 
 /* === Private function declarations =========================================================== */
@@ -177,6 +192,23 @@ void test_comandos_malformados(void)
     printf("[TEST] Test Case: %s\r\n", malformCases[i].description);
     TEST_ASSERT_EQUAL(malformCases[i].retorno,
                       handleCommand(malformCases[i].command, malformCases[i].response));
+  }
+}
+
+// @test Test03: se prueban casos de comandos invalidos.
+void test_comandos_invalidos(void)
+{
+  open_fake.return_val = 3;
+  close_fake.return_val = 0;
+  read_fake.custom_fake = NULL;
+  write_fake.custom_fake = NULL;
+  unlink_fake.return_val = 0;
+
+  for(int i = 0; i < cantidad(invalidCases, testCase_t); i++)
+  {
+    printf("[TEST] Test Case: %s\r\n", invalidCases[i].description);
+    TEST_ASSERT_EQUAL(invalidCases[i].retorno,
+                      handleCommand(invalidCases[i].command, invalidCases[i].response));
   }
 }
 /* === End of documentation ==================================================================== */
